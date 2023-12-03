@@ -1,10 +1,20 @@
 #Imports
 from taipy.gui import Gui
 
+#Variables
+img_path = 'placeholder_image.png'
 #Define the app as a Gui
-index_html = """<h1> Hello World</h1>"""
-index_md = """# Hello World"""
-app = Gui(page = index_md)
+index = """
+<|text-center|
+<|{"logo.png"}|image|>
+
+<|{img_path}|file_selector|extensions=.png|>
+ Select an image to classify
+ 
+<|{img_path}|image|>
+>
+"""
+app = Gui(page = index)
 
 #Run script
 if __name__ =="__main__":
