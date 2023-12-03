@@ -18,9 +18,13 @@ classes = {
     9: 'truck'
 }
 
+
+model = models.load_model("baseline_model.keras")
+
 content=""
 img_path = 'placeholder_image.png'
-model = models.load_model("baseline_model.keras")
+prob = 0
+pred = ""
 #Define model prediction function
 
 def predict_image(model, path):
@@ -31,9 +35,11 @@ def predict_image(model, path):
     data = data / 255
     data = np.array([data])
     probs = model.predict(data)
-    print(np.max(probs))
-    print(np.argmax(probs))
-    print(classes.get(np.argmax(probs)))
+
+    top_prob = probs.max()
+    top_pred = classes.get(np.argmax(probs))
+    return top_prob, top_pred
+    
 #Define the app as a Gui
 index = """
 <|text-center|
@@ -42,16 +48,21 @@ index = """
 <|{content}|file_selector|extensions=.png|>
  Select an image to classify
  
+<|{pred}|>
+
 <|{img_path}|image|>
 
-<|label|indicator|value=0|min=0|max=100|width=22vw|>
+<|{prob}|indicator|value={prob}|min=0|max=100|width=22vw|>
 >
 """
 
 def on_change(state, var, val):
     if var == "content":
+        top_prob, top_pred = predict_image(model, val)
+        
         state.img_path = val
-        predict_image(model, val)
+        state.prob = round(top_prob * 100)
+        state.pred = f"This is a {top_pred}"
     #print(state,var,val)
 app = Gui(page = index)
 
