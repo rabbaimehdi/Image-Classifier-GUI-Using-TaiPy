@@ -12,6 +12,8 @@ index = """
  Select an image to classify
  
 <|{img_path}|image|>
+
+<|label|indicator|value=0|min=0|max=100|width=22vw|>
 >
 """
 
