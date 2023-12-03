@@ -8,12 +8,17 @@ index = """
 <|text-center|
 <|{"logo.png"}|image|>
 
-<|{img_path}|file_selector|extensions=.png|>
+<|{content}|file_selector|extensions=.png|>
  Select an image to classify
  
 <|{img_path}|image|>
 >
 """
+
+def on_change(state, var, val):
+    if var == "content":
+        state.img_path = val
+    #print(state,var,val)
 app = Gui(page = index)
 
 #Run script
